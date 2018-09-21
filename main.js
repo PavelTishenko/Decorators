@@ -68,26 +68,49 @@
 //   alert( 'Лог:' + args.join(',') );
 // }
 
+// function f(x) {
+//   return Math.random() * x; // random для удобства тестирования
+// }
+
+// function makeCaching(f){
+//   let cache = {};
+//   return function(a){
+//     if(typeof cache[a] === 'undefined'){
+//       cache[a] = f.call(this, a);
+//     }
+//     return cache[a];
+//   };
+// }
+
+// f = makeCaching(f);
+// var a, b;
+
+// a = f(1);
+// b = f(1);
+// // console.log( a == b );
+
+// b = f(2);
+// console.log( a == b );
+
+
+
+//************* функція затримка ************
 function f(x) {
-  return Math.random() * x; // random для удобства тестирования
+  console.log( x );
 }
 
-function makeCaching(f){
-  let cache = {};
-  return function(a){
-    if(typeof cache[a] === 'undefined'){
-      cache[a] = f.call(this, a);
-    }
-    return cache[a];
+function delay(f, ms){
+  return function(){
+    let area = this;
+    let args = arguments;
+    setTimeout(function(){
+      f.apply(area, args)
+    }, ms);
   };
 }
 
-f = makeCaching(f);
-var a, b;
+let f1000 = delay(f, 1000);
+let f1500 = delay(f, 1500);
 
-a = f(1);
-b = f(1);
-console.log( a == b );
-
-b = f(2);
-console.log( a == b );
+f1000('test');
+f1500("test2");
